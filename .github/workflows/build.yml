@@ -1,6 +1,9 @@
 name: Build and publish container image
 run-name: ${{ github.actor }} is running build/publish
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   test:
     runs-on: ubuntu-latest
