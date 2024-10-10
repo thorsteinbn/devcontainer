@@ -11,6 +11,9 @@ env:
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  IMAGE_TAGS: latest ${{ github.sha }}
+  IMAGE_NAME: devcontainer
+
 
 jobs:
   build-and-push:
@@ -38,10 +41,11 @@ jobs:
         id: build-image
         uses: redhat-actions/buildah-build@v2
         with:
-          image: ${{ github.repository }}
-          tags: latest ${{ github.sha }}
+          image: ${{ env.IMAGE_NAME }}
+          tags: ${{ env.IMAGE_TAGS }}
           containerfiles: |
             ./Containerfile
+          oci: true
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@v2
